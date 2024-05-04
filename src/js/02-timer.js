@@ -26,23 +26,27 @@ const options = {
   },
 };
 
-flatpickr('input#datatime-picker', options);
+flatpickr('input#datetime-picker', options);
 
 startButton.addEventListener('click', ev => {
   const { start } = ev.currentTarget.dataset;
   const timeThen = new Date(start);
   let interval = null;
 
-  setInterval(() => {
+  interval = setInterval(() => {
     const timeNow = new Date();
 
     const timeLeft = timeThen.getTime() - timeNow.getTime();
 
-    const timeLeftObj = convertMs(timeLeft);
-    daysText.innerText = `${timeLeftObj.days}`.padStart(2, '0');
-    hoursText.innerText = `${timeLeftObj.hours}`.padStart(2, '0');
-    minutesText.innerText = `${timeLeftObj.minutes}`.padStart(2, '0');
-    secondText.innerText = `${timeLeftObj.seconds}`.padStart(2, '0');
+    if (timeLeft >= 0) {
+      const timeLeftObj = convertMs(timeLeft);
+
+      daysText.innerText = `${timeLeftObj.days}`.padStart(2, '0');
+      hoursText.innerText = `${timeLeftObj.hours}`.padStart(2, '0');
+      minutesText.innerText = `${timeLeftObj.minutes}`.padStart(2, '0');
+      secondText.innerText = `${timeLeftObj.seconds}`.padStart(2, '0');
+    }
+
     if (timeLeft <= 0) {
       clearInterval(interval);
     }
